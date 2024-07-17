@@ -74,6 +74,7 @@
 
     <main>
         <div class="container-xxl mt-5">
+          <div class="row">
           <div class="col-12 col-md-6">
             <div class="dropdown">
               <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -84,10 +85,34 @@
                 <!--<li><a class="dropdown-item">Location Name</a><l/i>--> 
               </ul>
             </div>
+            <table class="table table-striped">
+              <tr>
+                <th colspan="2" id="statsHeader">
+                  Stats For All Events
+                </th>
+              </tr>
+              <tr>
+                <td>Total Attendance</td>
+                <td id="total">100</td>
+              </tr>
+              <tr>
+                <td>Average Attendance</td>
+                <td id="average">100</td>
+              </tr>
+              <tr>
+                <td>Most Attended</td>
+                <td id="most">100</td>
+              </tr>
+              <tr>
+                <td>Least Attended</td>
+                <td id="least">100</td>
+              </tr>
+            </table>
           </div>
           <div class="col-12 col-md-6 order-first order-md-last">
             <img class="img-fluid p-5" width="75%" src="/img/APPNAMELogo.svg"/>
           </div>
+        </div>
         </div>
     </main>
 
