@@ -73,13 +73,21 @@
     </header>
 
     <main>
-        <div class="container mt-5">
-            <h1>Mnt Event</h1>
-            <input id="message" placeholdeer="Enter a message" class="form-control" value="Type Here">
-            <buton id="btnSubmit" type="button" class="btn btn-primary mt-3">Display Message</buton>
-            <div class="alert alert-danger mt-5 p-4" role="alert" id="alertMessage">
-                <!--Message Goes Here-->
+        <div class="container-xxl mt-5">
+          <div class="col-12 col-md-6">
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Pick a Location
+              </button>
+              <ul class="dropdown-menu" id="eventDropDown">
+                <!--location data goes here-->
+                <!--<li><a class="dropdown-item">Location Name</a><l/i>--> 
+              </ul>
             </div>
+          </div>
+          <div class="col-12 col-md-6 order-first order-md-last">
+            <img class="img-fluid p-5" width="75%" src="/img/APPNAMELogo.svg"/>
+          </div>
         </div>
     </main>
 
@@ -106,10 +114,6 @@
      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
     <script src="/js/site.js"></script>
-
-    <script>
-        document.getElementById("btnSubmit").addEventListener("click", getValues2);
-    </script>
 </body>
 
 </html>
