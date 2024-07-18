@@ -210,9 +210,10 @@ function displayData(events){
   for(let index = 0; index < events.length; index++){
     let curEvent = events[index];
 
-        //get a document fragment from the template
+    //get a document fragment from the template
     let eventRow = document.importNode(template.content, true);
 
+    //select the td based on attribute
     eventRow.querySelector("[data-event").textContent = curEvent.event;
     eventRow.querySelector("[data-city").textContent = curEvent.city;
     eventRow.querySelector("[data-state").textContent = curEvent.state;
