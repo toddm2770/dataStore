@@ -71,13 +71,21 @@ function buildDropDown(){
     let eventDD = document.getElementById("eventDropDown");
     eventDD.innerHTML = "";
 
-    //pull the events from data we have
-    let currentEvents = events;
+    //pull the events from local storage if it exists
+    let currentEvents = JSON.parse(localStorage.getItem("eventData"));
+    if(currentEvents == null){
+      currentEvents = events;
+      localStorage.setItem("eventData", JSON.stringify(currentEvents));
+    }
+
+    let statsHeader = document.getElementById("statsHeader");
+    statsHeader.innerHTML = `Stats For All Events`;
 
 
     //distinct set of city names
     //let distinctCities = [... new Set(currentEvents.map((event)=>event.city))];
     let distinctCities = getDistinctCities(currentEvents);
+
 
     let menuItem = `<li><a class="dropdown-item" onclick="getEvents(this)" data-city="All">All</a></li>`;
     eventDD.innerHTML += menuItem;
@@ -88,6 +96,7 @@ function buildDropDown(){
     }
 
     displayStats(currentEvents);
+    displayData(currentEvents);
 }
 
 function getDistinctCities(currentEvents){
@@ -141,17 +150,76 @@ function displayStats(events){
 
 //get events for a given city
 function getEvents(element){
-    let city = element.getAttribute("data-city");
+    let selectedCity = element.getAttribute("data-city");
     let filteredEvents = events;
 
-    if(city == 'All'){
-        filteredEvents == events;
-    } else { filteredEvents = events.filter(function (item){
-        if (item.city == city){
+    let statsHeader = document.getElementById("statsHeader");
+    statsHeader.innerHTML = `Stats For ${selectedCity} Events`;
+
+    let currentEvents = JSON.parse(localStorage.getItem("eventData")) || events;
+
+    if(selectedCity == 'All'){
+        filteredEvents = currentEvents;
+    } else { filteredEvents = currentEvents.filter(function (item){
+        if (item.city == selectedCity){
             return item;
         }
         })
     }
 
     displayStats(filteredEvents);
+    displayData(filteredEvents);
+}
+
+//save a new event from the add data form
+function saveEventData(){
+    //grab the current events
+    let currentEvents = JSON.parse(localStorage.getItem("eventData")) || events;
+
+    let eventObj = {};
+
+    eventObj["event"] = document.getElementById("newEventName").value;
+    eventObj["city"] = document.getElementById("newEventCity").value;
+
+  //get the selected state from the select control (dropdown)
+    let stateSel = document.getElementById("newEventState");
+    eventObj["state"] = stateSel.options[stateSel.selectedIndex].text;
+
+    eventObj["attendance"] = parseInt(document.getElementById("newEventAttendance").value);
+
+    let eventDate = document.getElementById("newEventDate").value;
+    let eventDate2 = `${eventDate} 00:00`;
+    eventObj["date"] = new Date(eventDate2).toLocaleDateString();
+
+    currentEvents.push(eventObj);
+
+    //save the array back to local storage
+    localStorage.setItem("eventData", JSON.stringify(currentEvents));
+
+    buildDropDown();
+}
+
+//display a grid of event data
+function displayData(events){
+  let template = document.getElementById("eventData-template");
+  let eventBody = document.getElementById("eventBody");
+  //clear the table data first
+  eventBody.innerHTML = "";
+
+  //loop of the events and display them
+  for(let index = 0; index < events.length; index++){
+    let curEvent = events[index];
+
+        //get a document fragment from the template
+    let eventRow = document.importNode(template.content, true);
+
+    eventRow.querySelector("[data-event").textContent = curEvent.event;
+    eventRow.querySelector("[data-city").textContent = curEvent.city;
+    eventRow.querySelector("[data-state").textContent = curEvent.state;
+    eventRow.querySelector("[data-attendance").textContent = curEvent.attendance;
+    eventRow.querySelector("[data-date").textContent = new Date(curEvent.date).toLocaleDateString();
+
+    eventBody.appendChild(eventRow);
+  }
+
 }
